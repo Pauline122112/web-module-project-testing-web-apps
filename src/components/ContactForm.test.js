@@ -121,15 +121,39 @@ test('renders all firstName, lastName and email text when submitted. Does NOT re
         expect(firstNameSubmit).toBeTruthy()
         expect(lastNameSubmit).toBeTruthy()
         expect(emailSubmit).toBeTruthy()
-
-
-
-
-
-
-
 });
 
 test('renders all fields text when all fields are submitted.', async () => {
+    render(<ContactForm />)
     
+
+    const firstNameInput = screen.getByLabelText(/First Name/i)
+		const lastNameInput = screen.getByLabelText(/Last Name/i)
+		const emailInput = screen.getByLabelText(/Email/i)
+        const messageInput = screen.getByLabelText(/message/i)
+		const button = screen.getByRole("button")
+
+		userEvent.type(firstNameInput, "Pauline")
+		userEvent.type(lastNameInput, "Stokes")
+		userEvent.type(emailInput, "pauline.stokes007@gmail.com")
+        userEvent.type(messageInput, 'here is a message')
+		userEvent.click(button);
+
+         await waitFor(() => {
+			const firstNameSubmit = screen.queryByTestId('firstnameDisplay')
+			expect(firstNameSubmit).toBeInTheDocument()
+			})
+         await waitFor(() => {
+			const lastNameSubmit = screen.queryByTestId('lastnameDisplay')
+			expect(lastNameSubmit).toBeInTheDocument()
+			})
+         await waitFor(() => {
+			const emailSubmit = screen.queryByTestId('emailDisplay')
+			expect(emailSubmit).toBeInTheDocument()
+			})
+         await waitFor(() => {
+			const messageSubmit = screen.queryByTestId('messageDisplay')
+			expect(messageSubmit).toBeInTheDocument()
+			})
+
 });
