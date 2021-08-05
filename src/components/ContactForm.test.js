@@ -80,12 +80,25 @@ test('renders "email must be a valid email address" if an invalid email is enter
             userEvent.click(button);
             
             
-			const emailError = screen.queryByText(/email must be a valid email address/i)
+			const emailError = screen.queryByText(/must be a valid email address/i);
 			expect(emailError).toBeTruthy();
 
 });
 
 test('renders "lastName is a required field" if an last name is not entered and the submit button is clicked', async () => {
+    render(<ContactForm />);
+		const firstNameInput = screen.getByLabelText(/First Name/i);
+		const lastNameInput = screen.getByLabelText(/Last Name/i);
+		const emailInput = screen.getByLabelText(/Email/i);
+		const button = screen.getByRole("button");
+
+		userEvent.type(firstNameInput, "Pauline")
+		userEvent.type(lastNameInput, '')
+		userEvent.type(emailInput, "pauline.stokes007@gmail.com")
+		userEvent.click(button)
+
+		const lastNameError = screen.queryByText(/lastName is a required field/i)
+		expect(lastNameError).toBeTruthy();
     
 });
 
