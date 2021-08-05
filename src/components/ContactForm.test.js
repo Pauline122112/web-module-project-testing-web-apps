@@ -18,10 +18,33 @@ test('renders the contact form header', ()=> {
 });
 
 test('renders ONE error message if user enters less then 5 characters into firstname.', async () => {
+    //Arrange
+    render(<ContactForm />);
+    //Act
+    const firstNameErr = screen.getByLabelText(/First Name/i)
+    userEvent.type(firstNameErr, 'Pauline')
+    const errorMessage = screen.queryAllByText(/error/i)
+    //Assert
+    expect(errorMessage).toBeTruthy()
     
 });
 
 test('renders THREE error messages if user enters no values into any fields.', async () => {
+    render(<ContactForm />)
+    const firstNameErr = screen.getByLabelText(/First Name/i)
+    userEvent.type(firstNameErr, '')
+    const errMess1 = screen.queryAllByText(/error/i)
+    expect(errMess1).toBeTruthy();
+
+    const lastNameErr = screen.getByLabelText(/Last Name/i)
+    userEvent.type(lastNameErr, '')
+    const errMess2 = screen.queryAllByText(/error/i)
+    expect(errMess2).toBeTruthy()
+
+    const emailErr = screen.getByLabelText(/email/i)
+    userEvent.type(emailErr, '')
+    const errMess3 = screen.queryAllByText(/error/i)
+    expect(errMess3).toBeTruthy()
     
 });
 
